@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
 html,
 body {
+  background-color: #5bb6d6;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -19,8 +23,35 @@ a {
   html {
     color-scheme: dark;
   }
+
   body {
     color: white;
-    background: black;
   }
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+
+}
+
+body {
+  color: white;
+  background-color: 'black';
+  position: relative;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  html, body {
+  overflow-x: hidden;
+  }
+}
+
+.inputRounded .MuiOutlinedInput-root {
+  border-radius: 10px;
+  background-color: white;
 }

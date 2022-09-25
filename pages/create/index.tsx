@@ -8,7 +8,6 @@ import SendIcon from '@mui/icons-material/Send';
 import EmentorsApi from '../../api/EmentorsApi';
 import { useForm } from "react-hook-form";
 import { isValidEmail } from '../../utils/validations';
-import ReactPlayer from 'react-player/youtube'
 import NativeVideoPlayer from '../../components/ui/VideoPlayer';
 
 interface FormData {
@@ -30,7 +29,8 @@ const Create = () => {
     const filevideoref = useRef<HTMLInputElement>(null)
     const [messageLength, setMessageLength] = useState<any>(0)
     const [isSubmit, setIsSubmit] = useState(false)
-
+    const [isVideo, setIsVideo] = useState(false)
+    const [isImage, setIsImage] = useState(false)
 
 
     const { register, handleSubmit, formState: { errors }, getValues, setValue, watch } = useForm<FormData>({
@@ -71,6 +71,7 @@ const Create = () => {
     }
 
     const onFilesSelected = async ({ target }: any) => {
+        setIsImage(true)
         if (!target.files || target.files.length === 0) {
             return;
         }
@@ -81,6 +82,7 @@ const Create = () => {
                 const { data } = await EmentorsApi.post<{ message: string }>('/upload', formData);
                 setValue('images', [...getValues('images'), data.message], { shouldValidate: true });
                 console.log(data)
+                data && setIsImage(false)
             }
 
         } catch (error) {
@@ -97,6 +99,7 @@ const Create = () => {
     }
 
     const onFilesSelectedVideo = async ({ target }: any) => {
+        setIsVideo(true)
         if (!target.files || target.files.length === 0) {
             return;
         }
@@ -107,6 +110,7 @@ const Create = () => {
                 const { data } = await EmentorsApi.post<{ message: string }>('/videos', formData);
                 setValue('videos', [...getValues('videos'), data.message], { shouldValidate: true });
                 console.log(data)
+                data && setIsVideo(false)
             }
 
         } catch (error) {
@@ -236,6 +240,13 @@ const Create = () => {
                                         onChange={onFilesSelected}
                                     />
                                 </Box>
+                                <Box display='flex' justifyContent='center'>
+                                    {
+                                        isImage && (
+                                            <Chip variant='outlined' label='Espere por favor' />
+                                        )
+                                    }
+                                </Box>
                                 <Grid container spacing={2}>
                                     {
                                         getValues('images').map(img => (
@@ -265,7 +276,7 @@ const Create = () => {
                                     <Button
                                         variant='outlined'
                                         startIcon={<UploadOutlined />}
-                                        sx={{ mb: 3, backgroundColor: 'white' }}
+                                        sx={{ mb: 3, backgroundColor: 'white', display: isVideo ? 'false' : '' }}
                                         onClick={() => filevideoref.current?.click()}
                                     >
                                         Cargar video
@@ -279,20 +290,27 @@ const Create = () => {
                                         onChange={onFilesSelectedVideo}
                                     />
                                 </Box>
+                                <Box display='flex' justifyContent='center'>
+                                    {
+                                        isVideo && (
+                                            <Chip variant='outlined' label='Espere por favor' />
+                                        )
+                                    }
+                                </Box>
                                 {
                                     getValues('videos').map(e => (
-                                        <>
-                                            <Box sx={{ backgroundColor: 'white' }}>
-                                                <NativeVideoPlayer url={e} />
-                                                <Button
-                                                    fullWidth
-                                                    color="error"
-                                                    onClick={() => onDeleteVideo(e)}
-                                                >
-                                                    Borrar
-                                                </Button>
-                                            </Box>
-                                        </>
+
+                                        <Box sx={{ backgroundColor: 'white' }} key={e}>
+                                            <NativeVideoPlayer url={e} />
+                                            <Button
+                                                fullWidth
+                                                color="error"
+                                                onClick={() => onDeleteVideo(e)}
+                                            >
+                                                Borrar
+                                            </Button>
+                                        </Box>
+
 
                                     ))
                                 }
@@ -305,10 +323,13 @@ const Create = () => {
                                     >
                                         Enviar
                                     </Button>
+                                </Box>
+                                <Box display='flex' justifyContent='center' sx={{ mt: 2 }}>
+
                                     {
                                         isSubmit &&
                                         (
-                                            <Chip label='por favor espere...' color='success' />
+                                            <Chip label='por favor espere...' />
                                         )
                                     }
                                 </Box>

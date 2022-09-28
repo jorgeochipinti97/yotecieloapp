@@ -28,11 +28,15 @@ export const CardPedido: FC<Props> = ({ pedido }) => {
                 <div data-aos="fade-left">
                     <SlideShow images={pedido.images} />
                 </div>
-                <Box display='flex' justifyContent='center'>
-                    <div data-aos="fade-right">
-                        <NativeVideoPlayer url={pedido.videos[0]} />
-                    </div>
-                </Box>
+                {
+                    pedido.videos[0].length > 0
+                    &&
+                    <Box display='flex' justifyContent='center'>
+                        <div data-aos="fade-right">
+                            <NativeVideoPlayer url={pedido.videos[0]} />
+                        </div>
+                    </Box>
+                }
 
                 <div data-aos="fade-left">
                     <Box >

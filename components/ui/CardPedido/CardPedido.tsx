@@ -15,7 +15,7 @@ export const CardPedido: FC<Props> = ({ pedido }) => {
 
     useEffect(() => {
 
-        console.log(pedido)
+        console.log(pedido.videos)
     }, [])
     return (
         <>
@@ -29,7 +29,7 @@ export const CardPedido: FC<Props> = ({ pedido }) => {
                     <SlideShow images={pedido.images} />
                 </div>
                 {
-                    pedido.videos[0].length > 0
+                    pedido.videos.length > 0
                     &&
                     <Box display='flex' justifyContent='center'>
                         <div data-aos="fade-right">

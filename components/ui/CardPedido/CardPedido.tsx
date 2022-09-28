@@ -25,9 +25,12 @@ export const CardPedido: FC<Props> = ({ pedido }) => {
                         Alguien te quiere dejar un mensajito...
                     </Typography>
                 </div>
-                <div data-aos="fade-left">
-                    <SlideShow images={pedido.images} />
-                </div>
+                {
+                    pedido.images.length > 0 &&
+                    <div data-aos="fade-left">
+                        <SlideShow images={pedido.images} />
+                    </div>
+                }
                 {
                     pedido.videos.length > 0
                     &&
